@@ -76,11 +76,11 @@ public class Menu {
 			if (comando.equals("Start")) {
 				started = true;
 			}
-			else if (comando.equals("raiseGridSize")) {
+			else if (comando.equals("raiseGridSize") && size < 30) {
 				size++;
 				gridSize.setText("GridSize: " + String.valueOf(size));
 			}
-			else if (comando.equals("lowerGridSize")) {
+			else if (comando.equals("lowerGridSize") && size > 16) {
 				size--;
 				gridSize.setText("GridSize: " + String.valueOf(size));
 			}

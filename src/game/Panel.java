@@ -40,6 +40,7 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 	private int lastMouseY;
 	private boolean inPlayer;
 	private int moveCost;
+	private int tileSize;
 
 	private final int initialCost = 1;
 	private final int minimumCost = 0;
@@ -75,14 +76,24 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		sizeX = 20;
-		sizeY = 20;
-		//sizeX = size;
-		//sizeY = size;
-		player = new Player(playerMoves, 5, 5, 25, 6, 14, 14, Color.BLUE);
-		enemies.add(new Enemy(enemyMoves, 10, 10, 25, 8, 10, 10, Color.RED));
-		enemies.add(new Enemy(enemyMoves, 15, 15, 25, 8, 10, 10, Color.RED));
-		enemies.add(new Enemy(enemyMoves, 10, 15, 25, 8, 10, 10, Color.RED));
+		sizeX = size;
+		sizeY = size;
+		tileSize = HEIGHT/size;
+		
+		// Passar para as entidades:
+		// Player
+		int h = ((tileSize)/10)*8;  // 80% do tileSize
+		int w = ((tileSize)/10)*8;  // 80% do tileSize
+		int off = (tileSize - w)/2; // Meio do tile 
+		player = new Player(playerMoves, 5, 5, tileSize, off, h, w, Color.BLUE);
+		// Enemy
+		h = ((tileSize)/10)*6;  // 60% do tileSize
+		w = ((tileSize)/10)*6;  // 60% do tileSize
+		off = (tileSize - w)/2; // Meio do tile 
+		enemies.add(new Enemy(enemyMoves, 10, 10, tileSize, off, h, w, Color.RED));
+		enemies.add(new Enemy(enemyMoves, 15, 15, tileSize, off, h, w, Color.RED));
+		enemies.add(new Enemy(enemyMoves, 10, 15, tileSize, off, h, w, Color.RED));
+		
 		grid = new GraphMatrix<Integer, Integer>(sizeX, sizeY, EMPTY, VISITED, FORBIDDEN, initialCost, minimumCost,
 				maximumCost, costComparator, costAdder);
 		preview = new ArrayList<Position>();
@@ -187,8 +198,8 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 		
 		// Move o Jogador
 		if (moveCost <= player.getMoves() && !inPlayer && !isForbidden(m)) {
-			player.setGridX((m.getX() - 1) / 25);
-			player.setGridY((m.getY() - 1) / 25);
+			player.setGridX((m.getX() - 1) / tileSize);
+			player.setGridY((m.getY() - 1) / tileSize);
 			inPlayer = true;
 
 			encontraCaminhoInimigos();
@@ -246,8 +257,8 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 					break;
 				if (x != -1 && y != -1){
 					if(grid.getElementCost(e)+ moveCost <= player.getMoves())
-						g.drawLine(gridToCoord(e.getPosX()) + 12, gridToCoord(e.getPosY()) + 12, gridToCoord(x) + 12,
-								gridToCoord(y) + 12);
+						g.drawLine(gridToCoord(e.getPosX()) + tileSize/2, gridToCoord(e.getPosY()) + tileSize/2, gridToCoord(x) + tileSize/2,
+								gridToCoord(y) + tileSize/2);
 					moveCost+= grid.getElementCost(e);
 				}
 				x = e.getPosX();
@@ -360,11 +371,11 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 	}
 
 	private int gridToCoord(int v) {
-		return v * 25;
+		return v * tileSize;
 	}
 
 	private int coordToGrid(int v) {
-		return (v - 1) / 25;
+		return (v - 1) / tileSize;
 	}
 
 	public boolean getRunning() {
