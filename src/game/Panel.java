@@ -47,8 +47,8 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 
 	private List<Enemy> enemies = new ArrayList<Enemy>();
 
-	final private int sizeX = 20;
-	final private int sizeY = 20;
+	private int sizeX;
+	private int sizeY;
 	final private int playerMoves = 5;
 	final private Comparator<Integer> costComparator = new Comparator<Integer>() {
 		@Override
@@ -70,12 +70,15 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 
 	int rounds = 0;
 
-	public Panel() {
+	public Panel(int size) {
 		setFocusable(true);
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		addMouseListener(this);
 		addMouseMotionListener(this);
-
+		sizeX = 20;
+		sizeY = 20;
+		//sizeX = size;
+		//sizeY = size;
 		player = new Player(playerMoves, 5, 5, 25, 6, 14, 14, Color.BLUE);
 		enemies.add(new Enemy(enemyMoves, 10, 10, 25, 8, 10, 10, Color.RED));
 		enemies.add(new Enemy(enemyMoves, 15, 15, 25, 8, 10, 10, Color.RED));
@@ -90,7 +93,7 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 		hash.put(initialCost + 1, Color.YELLOW);
 		hash.put(initialCost + 2, Color.ORANGE);
 
-		map = new Map(grid, hash, WIDTH, HEIGHT, 20, 20);
+		map = new Map(grid, hash, WIDTH, HEIGHT, sizeX, sizeY);
 		addRandomCosts(100, hash.size());
 		addRandomForbidden(20);
 
@@ -103,8 +106,8 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 	// Altera o custo de até <number> casas aleatórias(Temporário)
 	private void addRandomCosts(int number, int max) {
 		for (int i = 1; i <= number; i++) {
-			int randomX = ThreadLocalRandom.current().nextInt(0, 20);
-			int randomY = ThreadLocalRandom.current().nextInt(0, 20);
+			int randomX = ThreadLocalRandom.current().nextInt(0, sizeX);
+			int randomY = ThreadLocalRandom.current().nextInt(0, sizeY);
 			int randomCost = ThreadLocalRandom.current().nextInt(2, 4);
 			grid.setElementCost(randomX, randomY, randomCost);
 		}
@@ -113,8 +116,8 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 	// Adiciona até <number> obstáculos intransponíveis(Temporário)
 	private void addRandomForbidden(int number) {
 		for (int i = 1; i <= number; i++) {
-			int randomX = ThreadLocalRandom.current().nextInt(0, 20);
-			int randomY = ThreadLocalRandom.current().nextInt(0, 20);
+			int randomX = ThreadLocalRandom.current().nextInt(0, sizeX);
+			int randomY = ThreadLocalRandom.current().nextInt(0, sizeY);
 			if (checkOverride(randomX, randomY, player.getGridX(), player.getGridY()))
 				continue;
 			for(Enemy enemy : enemies)

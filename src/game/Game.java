@@ -12,11 +12,10 @@ public class Game {
 	private Panel panel;
 	private int score;
 
-	public Game() {
+	public Game(int size) {
 		this.setRunning(true);
 		frame = new JFrame();
-		panel = new Panel();
-
+		panel = new Panel(size);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Enterprise Tactical RPG");
 		frame.pack();

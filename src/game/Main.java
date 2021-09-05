@@ -15,13 +15,16 @@ public class Main {
 				e.printStackTrace();
 			}
 		}
+		// Recebe o tamanho da grade
+		int size = menu.getSize();
+		
 		// Remove o menu
 		menu.getFrame().dispose();
 
 		// Loop de Restart
 		while (restart) {
 			// Jogo
-			Game game = new Game();
+			Game game = new Game(size);
 			while (game.isRunning()) {
 				game.update();
 			}
