@@ -205,27 +205,28 @@ class TestDirGraph {
 		tree.printDotFile();
 
 		System.out.println("Dijkstra CPT to node " + n5);
-		AdjListDirGraphCheapestPath<Integer, Integer> cpt = graph.dijkstraPath(n0, n5, 0, Integer.MAX_VALUE, new Comparator<Integer>() {
-			@Override
-			public int compare(Integer o1, Integer o2) {
-				if (o1 < o2) {
-					return -1;
-				}
+		AdjListDirGraphCheapestPath<Integer, Integer> cpt = graph.dijkstraPath(n0, n5, 0, Integer.MAX_VALUE,
+				new Comparator<Integer>() {
+					@Override
+					public int compare(Integer o1, Integer o2) {
+						if (o1 < o2) {
+							return -1;
+						}
 
-				if (o1 > o2) {
-					return 1;
-				}
+						if (o1 > o2) {
+							return 1;
+						}
 
-				return 0;
-			}
+						return 0;
+					}
 
-		}, (Integer a, Integer b) -> a + b);
-		
+				}, (Integer a, Integer b) -> a + b);
+
 		assertNotNull(cpt);
 		cpt.getTree().printDotFile();
-		
+
 		assertEquals(22, cpt.getTotalCost());
-		
+
 		System.out.println("cost to " + n0 + " to " + n5 + ":" + cpt.getTotalCost());
 	}
 

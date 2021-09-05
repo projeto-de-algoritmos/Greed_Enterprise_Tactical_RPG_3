@@ -39,8 +39,8 @@ class TestMatrixGraph {
 		};
 		final BinaryOperator<Integer> costAdder = (Integer a, Integer b) -> a + b;
 
-		GraphMatrix<Integer, Integer> gm = new GraphMatrix<Integer, Integer>(sizeX, sizeY, EMPTY, VISITED, FORBIDDEN, initialCost, minimumCost,
-				maximumCost, costComparator, costAdder);
+		GraphMatrix<Integer, Integer> gm = new GraphMatrix<Integer, Integer>(sizeX, sizeY, EMPTY, VISITED, FORBIDDEN,
+				initialCost, minimumCost, maximumCost, costComparator, costAdder);
 
 		assertEquals(EMPTY, gm.getEMPTY());
 		assertEquals(VISITED, gm.getVISITED());
@@ -89,8 +89,8 @@ class TestMatrixGraph {
 		};
 		final BinaryOperator<Integer> costAdder = (Integer a, Integer b) -> a + b;
 
-		GraphMatrix<Integer, Integer> gm = new GraphMatrix<Integer, Integer>(sizeX, sizeY, EMPTY, VISITED, FORBIDDEN, initialCost, minimumCost,
-				maximumCost, costComparator, costAdder);
+		GraphMatrix<Integer, Integer> gm = new GraphMatrix<Integer, Integer>(sizeX, sizeY, EMPTY, VISITED, FORBIDDEN,
+				initialCost, minimumCost, maximumCost, costComparator, costAdder);
 
 		assertEquals(EMPTY, gm.getEMPTY());
 		assertEquals(VISITED, gm.getVISITED());
@@ -139,8 +139,8 @@ class TestMatrixGraph {
 		};
 		final BinaryOperator<Integer> costAdder = (Integer a, Integer b) -> a + b;
 
-		GraphMatrix<Integer, Integer> gm = new GraphMatrix<Integer, Integer>(sizeX, sizeY, EMPTY, VISITED, FORBIDDEN, initialCost, minimumCost,
-				maximumCost, costComparator, costAdder);
+		GraphMatrix<Integer, Integer> gm = new GraphMatrix<Integer, Integer>(sizeX, sizeY, EMPTY, VISITED, FORBIDDEN,
+				initialCost, minimumCost, maximumCost, costComparator, costAdder);
 
 		assertEquals(EMPTY, gm.getEMPTY());
 		assertEquals(VISITED, gm.getVISITED());
