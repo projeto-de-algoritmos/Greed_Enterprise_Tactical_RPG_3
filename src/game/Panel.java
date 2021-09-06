@@ -134,25 +134,30 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 	int rounds = 0;
 
 	public Panel(int size) {
+
+		// Configurações do Painel
 		setFocusable(true);
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
+
+		// Mouse Listeners
 		addMouseListener(this);
 		addMouseMotionListener(this);
+
+		// Define os tamanhos
 		sizeX = size;
 		sizeY = size;
 		tileSize = HEIGHT / size;
 
-		// Passar para as entidades:
-		// Player
+		// Inicializar Jogador
 		int h = (int) (tileSize * 0.8); // 80% do tileSize
 		int w = (int) (tileSize * 0.8); // 80% do tileSize
-		int off = (tileSize - w) / 2; // Meio do tile
+		int off = (tileSize - w) / 2; 	// Meio do tile
 		player = new Player(playerMoves, 5, 5, tileSize, off, h, w, Color.BLUE);
 
 		// Inicializar inimigos comuns
 		h = (int) (tileSize * 0.6); // 60% do tileSize
 		w = (int) (tileSize * 0.6); // 60% do tileSize
-		off = (tileSize - w) / 2; // Meio do tile
+		off = (tileSize - w) / 2; 	// Meio do tile
 		enemies.add(new Enemy(enemyMoves, 10, 10, tileSize, off, h, w, Color.RED));
 		enemies.add(new Enemy(enemyMoves, 15, 15, tileSize, off, h, w, Color.RED));
 		enemies.add(new Enemy(enemyMoves, 10, 15, tileSize, off, h, w, Color.RED));
@@ -160,35 +165,40 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 		// Inicializar inimigos ambiciosos
 		h = (int) (tileSize * 0.95); // 95% do tileSize
 		w = (int) (tileSize * 0.95); // 95% do tileSize
-		off = (tileSize - w) / 2; // Meio do tile
+		off = (tileSize - w) / 2;	 // Meio do tile
 		greedyEnemies.add(new GreedyEnemy(enemyMoves, 9, 9, tileSize, off, h, w, Color.RED));
 		greedyEnemies.add(new GreedyEnemy(enemyMoves, 14, 14, tileSize, off, h, w, Color.RED));
 		greedyEnemies.add(new GreedyEnemy(enemyMoves, 9, 14, tileSize, off, h, w, Color.RED));
 
+		// Lista de inimigos
 		allEnemies.addAll(enemies);
 		allEnemies.addAll(greedyEnemies);
 
+		// Inicializa Grafo do Mapa
 		grid = new GraphMatrix<Integer, Integer>(sizeX, sizeY, EMPTY, VISITED, FORBIDDEN, initialCost, minimumCost,
 				maximumCost, costComparator, costAdder);
+		
+		// Inicializa o Preview do movimento do Jogador
 		preview = new ArrayList<Position>();
 
-		// Dicionário de custo/cores
+		// Cria dicionário de custo/cores
 		HashMap<Integer, Color> hash = new HashMap<Integer, Color>();
 		hash.put(initialCost, Color.GREEN);
 		hash.put(initialCost + 1, Color.YELLOW);
 		hash.put(initialCost + 2, Color.ORANGE);
 
+		// Inicializa Mapa
 		map = new Map(grid, hash, WIDTH, HEIGHT, sizeX, sizeY);
-		addRandomCosts((sizeX * sizeY) / 2, hash.size());
+		addRandomCosts((sizeX * sizeY) / 2, hash.size()+1);
 		addRandomForbidden(sizeX);
-
 		grid.setElementCost(player.getGridX(), player.getGridY(), initialCost);
 		grid.setElementValue(player.getGridX(), player.getGridY(), EMPTY);
 
+		// Inicia o Jogo
 		start();
 	}
 
-	// Altera o custo de até <number> casas aleatórias(Temporário)
+	// Altera o custo de até <number> casas aleatórias
 	private void addRandomCosts(int number, int max) {
 		for (int i = 0; i < number; i++) {
 			int randomX = ThreadLocalRandom.current().nextInt(0, sizeX);
@@ -198,7 +208,7 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 		}
 	}
 
-	// Adiciona até <number> obstáculos intransponíveis(Temporário)
+	// Adiciona até <number> obstáculos intransponíveis
 	private void addRandomForbidden(int number) {
 		List<Entity> entities = new ArrayList<Entity>();
 		entities.addAll(allEnemies);
@@ -208,11 +218,14 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 			Boolean acceptable = true;
 			int randomX = ThreadLocalRandom.current().nextInt(0, sizeX);
 			int randomY = ThreadLocalRandom.current().nextInt(0, sizeY);
+			
+			// Verifica sobreposição com as entidades
 			for (Entity entity : entities) {
 				if (checkOverride(randomX, randomY, entity.getGridX(), entity.getGridY())) {
 					acceptable = false;
 				}
 			}
+			// Apenas acrescenta o obstáculo caso a casa esteja livre
 			if (acceptable) {
 				grid.setElementValue(randomX, randomY, FORBIDDEN);
 			}
@@ -225,13 +238,12 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 
 	public void paint(Graphics g) {
 		super.paint(g);
-
 		Graphics2D g2d = (Graphics2D) g;
 
 		// Desenha a Grade
 		map.draw(g2d);
 
-		// Desenha as linhas de caminho
+		// Desenha a Preview do movimento do Jogador
 		drawPreview(g2d);
 
 		// Desenha o Jogador
@@ -327,6 +339,7 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 	public void mouseDragged(MouseEvent m) {
 	}
 
+	// Desenha a preview do movimento do Jogador
 	private void drawPreview(Graphics2D g) {
 		int x = -1;
 		int y = -1;

@@ -76,10 +76,10 @@ public class Menu {
 				started = true;
 			} else if (comando.equals("raiseGridSize") && size < 30) {
 				size++;
-				gridSize.setText("GridSize: " + String.valueOf(size));
+				gridSize.setText("Grid Size: " + String.valueOf(size));
 			} else if (comando.equals("lowerGridSize") && size > 16) {
 				size--;
-				gridSize.setText("GridSize: " + String.valueOf(size));
+				gridSize.setText("Grid Size: " + String.valueOf(size));
 			}
 		}
 	}
