@@ -19,7 +19,7 @@ public class Game {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Enterprise Tactical RPG");
 		frame.pack();
-		frame.setSize(500-500%size, 530-500%size);
+		frame.setSize(500 - 500 % size, 530 - 500 % size);
 		frame.setLocationRelativeTo(null);
 		frame.add(panel);
 		frame.setVisible(true);

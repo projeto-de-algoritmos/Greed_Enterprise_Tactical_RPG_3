@@ -17,7 +17,7 @@ public class Main {
 		}
 		// Recebe o tamanho da grade
 		int size = menu.getSize();
-		
+
 		// Remove o menu
 		menu.getFrame().dispose();
 

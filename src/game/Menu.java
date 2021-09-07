@@ -18,7 +18,7 @@ public class Menu {
 	public JFrame getFrame() {
 		return frame;
 	}
-	
+
 	public int getSize() {
 		return size;
 	}
@@ -30,7 +30,7 @@ public class Menu {
 	public Menu() {
 
 		size = 20;
-		
+
 		frame = new JFrame();
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
@@ -38,22 +38,21 @@ public class Menu {
 		gridSize = new JLabel("Grid Size: " + String.valueOf(size));
 		gridSize.setSize(100, 500);
 		gridSize.setHorizontalAlignment(JLabel.CENTER);
-		
+
 		JButton startButton = new JButton("Start");
 		startButton.setActionCommand("Start");
 		startButton.addActionListener(new EventoBotao());
-		
+
 		JButton raiseGridSizeButton = new JButton("+");
 		raiseGridSizeButton.setActionCommand("raiseGridSize");
 		raiseGridSizeButton.addActionListener(new EventoBotao());
 		raiseGridSizeButton.setSize(500, 50);
-		
+
 		JButton lowerGridSizeButton = new JButton("-");
 		lowerGridSizeButton.setActionCommand("lowerGridSize");
 		lowerGridSizeButton.addActionListener(new EventoBotao());
 		lowerGridSizeButton.setSize(200, 50);
-		
-		
+
 		frame.add(panel);
 		panel.setSize(500, 500);
 		panel.add(startButton, BorderLayout.PAGE_START);
@@ -75,14 +74,12 @@ public class Menu {
 			String comando = e.getActionCommand();
 			if (comando.equals("Start")) {
 				started = true;
-			}
-			else if (comando.equals("raiseGridSize") && size < 30) {
+			} else if (comando.equals("raiseGridSize") && size < 30) {
 				size++;
-				gridSize.setText("GridSize: " + String.valueOf(size));
-			}
-			else if (comando.equals("lowerGridSize") && size > 16) {
+				gridSize.setText("Grid Size: " + String.valueOf(size));
+			} else if (comando.equals("lowerGridSize") && size > 16) {
 				size--;
-				gridSize.setText("GridSize: " + String.valueOf(size));
+				gridSize.setText("Grid Size: " + String.valueOf(size));
 			}
 		}
 	}
